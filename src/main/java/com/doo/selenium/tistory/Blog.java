@@ -1,6 +1,8 @@
 package com.doo.selenium.tistory;
 
+import com.doo.selenium.utils.FileRead;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,11 +21,22 @@ public class Blog {
         options.addArguments("--disable-popup-blocking");    // 팝업 무시
         options.addArguments("--disable-default-apps");     // 기본앱 사용안함
 
+//        List<String> ips = FileRead.getIps();
         Random random = new Random();
         int start = random.nextInt(140);
 
         for (var i = start; i < 140; i++) {
             try {
+
+//
+////                프록시
+//                int ipKey = random.nextInt(ips.size());
+//                String proxyIpPort = ips.get(ipKey);
+//                Proxy proxy = new Proxy();
+//                proxy.setHttpProxy(proxyIpPort);
+//                proxy.setSslProxy(proxyIpPort);
+//                options.setCapability("proxy", proxy);
+
                 // WebDriver 객체 생성
                 ChromeDriver driver = new ChromeDriver(options);
 
@@ -45,7 +58,7 @@ public class Blog {
                 driver.switchTo().frame(0);
                 List<WebElement> frame_g = driver.findElements(By.tagName("a"));
                 System.out.println(frame_g.size());
-                if (frame_g.size() > 1){
+                if (frame_g.size() > 1 && i % 3 == 0 ){
                     Thread.sleep(4000);
                     frame_g.stream().forEach(
                             x -> {
