@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Random;
 
 public class Blog {
+
+
+    private final static int MAX_COUNT = 150;
+
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "/Users/doo/bin/chromedriver");
 
@@ -23,9 +27,9 @@ public class Blog {
 
 //        List<String> ips = FileRead.getIps();
         Random random = new Random();
-        int start = random.nextInt(140);
+        int start = random.nextInt(MAX_COUNT);
 
-        for (var i = start; i < 140; i++) {
+        for (var i = start; i < MAX_COUNT; i++) {
             try {
 
 //
@@ -58,17 +62,20 @@ public class Blog {
                 driver.switchTo().frame(0);
                 List<WebElement> frame_g = driver.findElements(By.tagName("a"));
                 System.out.println(frame_g.size());
-                if (frame_g.size() > 1 && i % 3 == 0 ){
-                    Thread.sleep(4000);
-                    frame_g.stream().forEach(
+                if (frame_g.size() > 1 && (i % 3) == 0 ){
+
+                    frame_g.stream().skip(0).limit(1).forEach(
                             x -> {
+                                System.out.println(x.getTagName());
                                 x.click();
                             }
                     );
+                    Thread.sleep(4000);
+
                 }
                 driver.close();
                 driver.quit();
-                if (i == 139) {
+                if (i == MAX_COUNT) {
                     i = 8;
                 }
                 Thread.sleep(1000);
