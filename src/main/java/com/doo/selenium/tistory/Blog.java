@@ -14,10 +14,16 @@ import java.util.Random;
 public class Blog {
 
 
-    private final static int MAX_COUNT = 150;
+    private static WebElement element;
+
+    private static int MAX_NUMBER = 180;
+
+    private static String MOBILE = "Y";
 
     public static void main(String[] args) {
+
         System.setProperty("webdriver.chrome.driver", "/Users/doo/bin/chromedriver");
+        String userAgent = "Mozilla/5.0 (Linux; Android 9; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.83 Mobile Safari/537.36"; //모바일 에이전트
 
         // WebDriver 옵션 설정
         ChromeOptions options = new ChromeOptions();
@@ -25,21 +31,22 @@ public class Blog {
         options.addArguments("--disable-popup-blocking");    // 팝업 무시
         options.addArguments("--disable-default-apps");     // 기본앱 사용안함
 
-//        List<String> ips = FileRead.getIps();
         Random random = new Random();
-        int start = random.nextInt(MAX_COUNT);
 
-        for (var i = start; i < MAX_COUNT; i++) {
+        int start = random.nextInt(MAX_NUMBER);
+
+        for (var i = start; i < MAX_NUMBER; i++) {
             try {
 
-//
-////                프록시
-//                int ipKey = random.nextInt(ips.size());
-//                String proxyIpPort = ips.get(ipKey);
-//                Proxy proxy = new Proxy();
-//                proxy.setHttpProxy(proxyIpPort);
-//                proxy.setSslProxy(proxyIpPort);
-//                options.setCapability("proxy", proxy);
+                if (random.nextInt(5) % 2 == 0) {
+                    MOBILE = "Y";
+                } else {
+                    MOBILE = "N";
+                }
+
+                if (MOBILE.equals("Y")) {
+                    options.addArguments("user-agent=" + userAgent);
+                }
 
                 // WebDriver 객체 생성
                 ChromeDriver driver = new ChromeDriver(options);
@@ -52,38 +59,51 @@ public class Blog {
 
                 // 첫번째 탭으로 전환
                 driver.switchTo().window(tabs.get(0));
-
                 driver.get("https://ldh-6019.tistory.com/" + i);
-
                 Thread.sleep(1000);
                 int frameCont = driver.findElements(By.tagName("iframe")).size();
-                System.out.println(frameCont);
 
-                driver.switchTo().frame(0);
-                List<WebElement> frame_g = driver.findElements(By.tagName("a"));
-                System.out.println(frame_g.size());
-                if (frame_g.size() > 1 && (i % 3) == 0 ){
-
-                    frame_g.stream().skip(0).limit(1).forEach(
-                            x -> {
-                                System.out.println(x.getTagName());
-                                x.click();
-                            }
-                    );
-                    Thread.sleep(4000);
-
+                System.out.println("FrameCont ::" + frameCont);
+                if (frameCont > 0) {
+                    driver.switchTo().frame(0);
+                } else {
+                    driver.close();
+                    driver.quit();
+                    continue;
                 }
+                if (MOBILE.equals("Y")) {
+                    element = driver.findElement(By.cssSelector("div.inner_cm>a"));
+                    if (element != null && element.getTagName().equals("a")) {
+                        element.click();
+                    }
+
+                } else {
+                    List<WebElement> frame_g = driver.findElements(By.tagName("a"));
+                    System.out.println(frame_g.size());
+                    if (frame_g.size() > 1 && i % 3 == 0) {
+//                if (frame_g.size() > 1){
+                        Thread.sleep(3000);
+                        frame_g.stream().forEach(
+                                x -> {
+                                    x.click();
+                                }
+                        );
+                    }
+                }
+                Thread.sleep(3000);
+
                 driver.close();
                 driver.quit();
-                if (i == MAX_COUNT) {
+                if (i == 139) {
                     i = 8;
                 }
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.getStackTrace();
             }
         }
     }
+
 }
 
 
