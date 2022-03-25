@@ -1,17 +1,17 @@
-package com.doo.selenium.tistory;
+package com.doo.selenium.tistory.service;
 
-import com.doo.selenium.utils.FileRead;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Blog {
+@Service
+public class TstoryService {
 
     private static WebElement element;
 
@@ -19,8 +19,7 @@ public class Blog {
 
     private static String MOBILE = "Y";
 
-    public static void main(String[] args) {
-
+    public void run() {
         System.setProperty("webdriver.chrome.driver", "/Users/doo/bin/chromedriver");
         String userAgent = "Mozilla/5.0 (Linux; Android 9; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.83 Mobile Safari/537.36"; //모바일 에이전트
 
@@ -49,7 +48,7 @@ public class Blog {
                 // WebDriver 객체 생성
                 ChromeDriver driver = new ChromeDriver(options);
 
-            // 빈 탭 생성
+                // 빈 탭 생성
                 driver.executeScript("window.open('about:blank','_blank');");
 //
 //            // 탭 목록 가져오기
@@ -101,9 +100,4 @@ public class Blog {
             }
         }
     }
-
 }
-
-
-
-
