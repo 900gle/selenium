@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Random;
 
 @Service
@@ -15,7 +16,7 @@ public class TstoryService {
 
     private static WebElement element;
 
-    private static int MAX_NUMBER = 230;
+    private static int MAX_NUMBER = 280;
 
     private static String MOBILE = "Y";
 
@@ -58,7 +59,8 @@ public class TstoryService {
                 driver.switchTo().window(tabs.get(0));
                 driver.get("https://ldh-6019.tistory.com/" + i);
                 Thread.sleep(1000);
-                int frameCont = driver.findElements(By.tagName("iframe")).size();
+
+                int frameCont = OptionalInt.of(driver.findElements(By.tagName("iframe")).size()).getAsInt();
 
                 System.out.println("FrameCont ::" + frameCont);
                 if (frameCont > 0) {
@@ -71,6 +73,7 @@ public class TstoryService {
                 if (MOBILE.equals("Y")) {
                     element = driver.findElement(By.cssSelector("div.inner_cm>a"));
                     if (element != null && element.getTagName().equals("a")) {
+                        System.out.println("ccchhheck :::: ");
                         element.click();
                     }
 
@@ -79,7 +82,7 @@ public class TstoryService {
                     System.out.println(frame_g.size());
                     if (frame_g.size() > 1 && i % 3 == 0) {
 //                if (frame_g.size() > 1){
-                        Thread.sleep(3000);
+                        Thread.sleep(2000);
                         frame_g.stream().forEach(
                                 x -> {
                                     x.click();
@@ -87,9 +90,11 @@ public class TstoryService {
                         );
                     }
                 }
-                Thread.sleep(3000);
+                Thread.sleep(2000);
 
+                System.out.println(driver);
                 driver.close();
+
                 driver.quit();
                 if (i == 20) {
                     i = 8;
