@@ -16,7 +16,7 @@ public class TstoryService {
 
     private static WebElement element;
 
-    private static int MAX_NUMBER = 280;
+    private static int MAX_NUMBER = 350;
 
     private static String MOBILE = "Y";
 
@@ -71,6 +71,9 @@ public class TstoryService {
                     continue;
                 }
                 if (MOBILE.equals("Y")) {
+                    if(driver.findElement(By.cssSelector("div.inner_cm>a")) ==null){
+                        continue;
+                    }
                     element = driver.findElement(By.cssSelector("div.inner_cm>a"));
                     if (element != null && element.getTagName().equals("a")) {
                         System.out.println("ccchhheck :::: ");
