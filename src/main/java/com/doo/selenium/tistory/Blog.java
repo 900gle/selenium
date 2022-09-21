@@ -70,7 +70,7 @@ public class Blog {
                     continue;
                 }
                 if (MOBILE.equals("Y")) {
-                    element = driver.findElement(By.cssSelector("div.inner_cm>a"));
+                    element = Optional.ofNullable(driver.findElement(Optional.ofNullable(By.cssSelector("div.inner_cm>a")).orElse(null))).orElse(null);
                     if (element != null && element.getTagName().equals("a")) {
                         element.click();
                     }
