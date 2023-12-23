@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NaverService {
@@ -75,7 +76,25 @@ public class NaverService {
 
         muchoCheese.stream().forEach(e -> {
             String imageUrl = e.findElement(By.cssSelector("a.thumbnail_thumb__Bxb6Z>img")).getAttribute("src");
+
+            String title = e.findElement(By.cssSelector("div.basicList_title__VfX3c>a")).getText();
+            String price = e.findElement(By.cssSelector("strong.basicList_price__euNoD>span>span.price_num__S2p_v")).getText();
+
+
+
+
+//            Elements title = element.select("div.basicList_title__VfX3c>a");
+//            Elements price = element.select("strong.basicList_price__euNoD>span>span.price_num__S2p_v");
+//            Elements category = element.select("div.basicList_depth__SbZWF span");
+//            List<String> categoryLists = category.stream().map(x -> x.text()).collect(Collectors.toList());
+//
+//            Elements image = element.select("a.thumbnail_thumb__Bxb6Z > img");
+
+
             System.out.println(imageUrl);
+            System.out.println(title);
+            System.out.println(price);
+
 //            Double confidence = Double.valueOf(e.findElement(By.cssSelector("td:nth-child(4)")).getText());
 //            String result = e.findElement(By.cssSelector("td:nth-child(5)")).getText();
 //            String registeredDate = e.findElement(By.cssSelector("td:nth-child(7)")).getText();

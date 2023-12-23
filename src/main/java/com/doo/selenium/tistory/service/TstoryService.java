@@ -6,21 +6,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.OptionalInt;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class TstoryService {
 
     private static WebElement element;
 
-    private static int MAX_NUMBER = 350;
+    private static int MAX_NUMBER = 13;
 
     private static String MOBILE = "Y";
 
-    public void run() {
+    public void run(String key) {
+
+        //(base) ➜  ~ mv -f Downloads/chromedriver /Users/doo/bin/
         System.setProperty("webdriver.chrome.driver", "/Users/doo/bin/chromedriver");
         String userAgent = "Mozilla/5.0 (Linux; Android 9; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.83 Mobile Safari/537.36"; //모바일 에이전트
 
@@ -32,6 +31,18 @@ public class TstoryService {
 
         Random random = new Random();
         int start = random.nextInt(MAX_NUMBER);
+
+
+        String url = "https://ldh-6019.tistory.com/";
+
+        switch (key) {
+            case "5AMSUNG":
+                url = "https://5amsung.tistory.com/";
+                break;
+            case "FATHER":
+                url = "https://father-lys.tistory.com/";
+        }
+
 
         for (var i = start; i < MAX_NUMBER; i++) {
             try {
@@ -57,9 +68,10 @@ public class TstoryService {
 
                 // 첫번째 탭으로 전환
                 driver.switchTo().window(tabs.get(0));
-                driver.get("https://ldh-6019.tistory.com/" + i);
+                driver.get(url + i);
                 Thread.sleep(1000);
 
+                /*
                 int frameCont = OptionalInt.of(driver.findElements(By.tagName("iframe")).size()).getAsInt();
 
                 System.out.println("FrameCont ::" + frameCont);
@@ -71,10 +83,22 @@ public class TstoryService {
                     continue;
                 }
                 if (MOBILE.equals("Y")) {
-                    if(driver.findElement(By.cssSelector("div.inner_cm>a")) ==null){
+
+                    WebElement webElement = Optional.of(driver.findElement(By.cssSelector("div#content>div>a"))).orElse(null);
+//                    WebElement webElement = Optional.of(driver.findElement(By.cssSelector("div.inner_cm>a"))).orElse(null);
+//                    WebElement webElement = Optional.of(driver.findElement(By.id("content"))).orElse(null);
+
+
+
+                    if(webElement == null){
                         continue;
                     }
-                    element = driver.findElement(By.cssSelector("div.inner_cm>a"));
+//                    element = driver.findElement(By.cssSelector("div.inner_cm>a"));
+//                    element = driver.findElement(By.id("content"));
+                    element = driver.findElement(By.cssSelector("div#content>div>a"));
+//                    WebElement webElement = Optional.of(driver.findElement(By.cssSelector("div.content>div>a"))).orElse(null);
+
+
                     if (element != null && element.getTagName().equals("a")) {
                         System.out.println("ccchhheck :::: ");
                         element.click();
@@ -84,7 +108,6 @@ public class TstoryService {
                     List<WebElement> frame_g = driver.findElements(By.tagName("a"));
                     System.out.println(frame_g.size());
                     if (frame_g.size() > 1 && i % 3 == 0) {
-//                if (frame_g.size() > 1){
                         Thread.sleep(2000);
                         frame_g.stream().forEach(
                                 x -> {
@@ -93,6 +116,8 @@ public class TstoryService {
                         );
                     }
                 }
+                */
+
                 Thread.sleep(2000);
 
                 System.out.println(driver);
