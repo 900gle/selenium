@@ -2,6 +2,7 @@ package com.doo.selenium.tistory.service;
 
 import com.doo.selenium.annotation.Timer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TstoryAsyncService {
@@ -18,7 +20,7 @@ public class TstoryAsyncService {
 
 //    private static WebElement element;
 
-    private static int MAX_NUMBER = 60;
+    private static int MAX_NUMBER = 63;
 
     @Timer
     public void run(String key) {
@@ -32,7 +34,7 @@ public class TstoryAsyncService {
                 url = "https://father-lys.tistory.com/";
         }
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             CompletableFuture<Integer> completableFuture = asyncTaskService.task((i % MAX_NUMBER), url);
             completableFutures.add(completableFuture);
         }
@@ -46,5 +48,7 @@ public class TstoryAsyncService {
                 e.printStackTrace();
             }
         }
+
+        log.info("End.");
     }
 }

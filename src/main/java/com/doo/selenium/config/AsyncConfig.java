@@ -26,8 +26,8 @@ public class AsyncConfig implements AsyncConfigurer {
     private Executor getExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(5); //기본 쓰레드 사이즈
-        taskExecutor.setMaxPoolSize(10); //최대 쓰레드 사이즈
-        taskExecutor.setQueueCapacity(10); //Max쓰레드가 동작하는 경우 대기하는 queue 사이즈
+        taskExecutor.setMaxPoolSize(20); //최대 쓰레드 사이즈
+        taskExecutor.setQueueCapacity(15); //Max쓰레드가 동작하는 경우 대기하는 queue 사이즈
         taskExecutor.setThreadNamePrefix("executor_");
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         taskExecutor.setWaitForTasksToCompleteOnShutdown(true); //Queue 에 남아있는 작업이완료 될 때까지 기다림
